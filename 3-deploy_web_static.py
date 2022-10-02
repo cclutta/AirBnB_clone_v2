@@ -19,8 +19,9 @@ def do_pack():
         makedirs("./versions", exist_ok=True)
         local('tar -cvzf {} web_static'.format(file_path))
         return file_path
-    except:
+    except Exception:
         return None
+
 
 def do_deploy(archive_path):
     """ Function that distributes the archive.
@@ -43,12 +44,13 @@ def do_deploy(archive_path):
         run('rm -rf {}/web_static'.format(dest))
         run('rm -rf /data/web_static/current')
         run('ln -s {}/ /data/web_static/current'.format(dest))
-    except:
+    except Exception:
         print("Error. Version deploy aborted")
         return False
 
     print("New version deployed!")
     return True
+
 
 def deploy():
     """ Function that generates and distributes the archive. """
@@ -56,5 +58,6 @@ def deploy():
         return do_deploy(archive_to_deploy)
     else:
         return False
+
 
 archive_to_deploy = do_pack()
